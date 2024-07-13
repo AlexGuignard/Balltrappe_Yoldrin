@@ -1,4 +1,5 @@
 <?php
+include "./includes/helpers/config.php";
 include "./includes/helpers/hash.php";
 include "./includes/helpers/db.php";
 session_start();

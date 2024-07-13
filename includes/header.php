@@ -17,19 +17,19 @@
 			nav>div>ul{
 			    display: flex;
 	    		flex-direction: row;
-	    		background:gray;
+	    		background:<?=$navbar_color?>;
 			}
 			nav>div>ul>li:hover{
     			transition:background .5s;
 				cursor: pointer;
-				background: #5d5b5b;
+				background: <?=$navbar_hover_accent_color?>;
 			}
 			nav>div>ul>li{
 				margin-left:1rem;
 				list-style: none;
 				padding:1rem;
 				margin:.2rem;
-				background: darkgrey;
+				background: <?=$navbar_accent_color?>;
 			}
 			nav>div>ul>li>a{
 				font:status-bar;
