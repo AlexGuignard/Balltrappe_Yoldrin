@@ -1,5 +1,5 @@
 <div>
-	<form target="/index.php" method="post" class="main_form">
+	<form target="/index.php" method="post" class="main_form" enctype="application/x-www-form-urlencoded">
 		<h1>Connexion</h1>
 		<div><label>Nom d'utilisateur</label><input type="text" placeholder="Login" class="login" name="login" autocomplete="username"></input></div>
 		<div><label>Mot de passe</label><input type="password" placeholder="***********" class="psswd" name="psswd" autocomplete="current-password"></input></div>
@@ -9,7 +9,7 @@
 
 
 <div>
-	<form target="/index.php" method="post" class="main_form form2">
+	<form target="/index.php" method="post" class="main_form form2" enctype="application/x-www-form-urlencoded">
 		<h1>Inscription</h1>
 		<div><label>Email</label><input type="mail" placeholder="Email" class="email" name="email" autocomplete="email"></input></div>
 		<div><label>Login</label><input type="text" placeholder="Nom d'utilisateur" class="login" name="login" autocomplete="username"></input></div>
