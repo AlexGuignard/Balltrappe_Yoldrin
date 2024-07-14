@@ -15,6 +15,9 @@ function cleartarget(){
   history.replaceState && history.replaceState(
       null, '', location.pathname + location.search.replace(/[\?&]target=[^&]+/, '').replace(/^&/, '?')
   );
+  history.replaceState && history.replaceState(
+      null, '', location.pathname + location.search.replace(/[\?&]delete_id=[^&]+/, '').replace(/^&/, '?')
+  );
 }
 </script>
 <?php
@@ -22,7 +25,30 @@ function cleartarget(){
 function get_first_line_db($db, $sql) {
 	$a = $db->query($sql)->fetchAll();
 	if (empty($a)) {return array();}
+	$counter1 = 0;
+	$counter2 = 0;
+	foreach ($a as $line) {
+		foreach ($line as $key) {
+			unset($a[$counter1][$counter2]);
+			$counter2++;
+		}
+		$counter1++;
+	}
 	return $a[0];
+}
+function get_all_lines_db($db, $sql) {
+	$a = $db->query($sql)->fetchAll();
+	if (empty($a)) {return array();}
+	$counter1 = 0;
+	$counter2 = 0;
+	foreach ($a as $line) {
+		foreach ($line as $key) {
+			unset($a[$counter1][$counter2]);
+			$counter2++;
+		}
+		$counter1++;
+	}
+	return $a;
 }
 
 ?>
