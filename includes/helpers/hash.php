@@ -17,3 +17,12 @@ function cleartarget(){
   );
 }
 </script>
+<?php
+
+function get_first_line_db($db, $sql) {
+	$a = $db->query($sql)->fetchAll();
+	if (empty($a)) {return array();}
+	return $a[0];
+}
+
+?>
