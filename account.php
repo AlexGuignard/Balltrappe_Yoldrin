@@ -1,4 +1,16 @@
 <?php
+if (is_null(get_first_line_db($db, "select msg_id from users where id =" . $_SESSION["user_id"])["msg_id"])) {
+	$id = "";
+	$c = 0;
+	do {
+		$c++;
+		$id = generateRandomString(8);
+		var_dump("select id from users where msg_id = '" . $id . "'");
+		$a = get_first_line_db($db, "select id from users where msg_id = '" . $id . "'");
+	} while ($id == "" || !empty($a) && $c < 10);
+	$b = get_first_line_db($db, "update users set msg_id = '" . $id . "' where id =" . $_SESSION["user_id"]);
+}
+;
 $main_images_dir = "./images/user_uploads/";
 $result = get_first_line_db($db, "SELECT login,email,user_icon FROM users where id = '" . $_SESSION["user_id"] . "'");
 if (isset($_POST["edit_email"])) {
@@ -60,11 +72,7 @@ foreach ($allfiles as $e) {
 	}
 }
 
-function generateRandomString($length = 10) {
-	return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
-}
-
-$result = get_first_line_db($db, "SELECT login,email,user_icon FROM users where id = '" . $_SESSION["user_id"] . "'");
+$result = get_first_line_db($db, "SELECT login,email,user_icon,msg_id FROM users where id = '" . $_SESSION["user_id"] . "'");
 ?>
 <div>
 	<form target="./?target=account" method="POST" enctype="multipart/form-data">
@@ -77,9 +85,28 @@ $result = get_first_line_db($db, "SELECT login,email,user_icon FROM users where 
 			<label><input type="email"  value ="<?=$result["email"]?>" name="edit_email"></label>
 			<label><input type="submit"  value ="Modifier"></label>
 		</div>
+		<div id="msg_id_a" onclick="copyId()">
+			<a type="text" readonly >Id de messages : <?=$result["msg_id"]?></a>
+			<div>
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+					<!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+					<path d="M280 64l40 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 128C0 92.7 28.7 64 64 64l40 0 9.6 0C121 27.5 153.3 0 192 0s71 27.5 78.4 64l9.6 0zM64 112c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l256 0c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16l-16 0 0 24c0 13.3-10.7 24-24 24l-88 0-88 0c-13.3 0-24-10.7-24-24l0-24-16 0zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"/>
+				</svg>
+			</div>
+			<div id="id_copied" hidden>
+				<a style="color:red;">Id copié</a>
+			</div>
+		</div>
 	</form>
 </div>
 <script>
+	function copyId(){
+		navigator.clipboard.writeText('<?=$result["msg_id"]?>');
+		document.getElementById	("id_copied").hidden = false
+		setTimeout	(()=>{
+				document.getElementById	("id_copied").hidden = true
+		},5000)
+	}
 	function change_image_file(){
 		document.getElementById("select_image").click( )
 	}

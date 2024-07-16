@@ -16,13 +16,15 @@ function cleartarget(){
       null, '', location.pathname + location.search.replace(/[\?&]target=[^&]+/, '').replace(/^&/, '?')
   );
   history.replaceState && history.replaceState(
-      null, '', location.pathname + location.search.replace(/[\?&]delete_id=[^&]+/, '').replace(/^&/, '?')
+      null, '', location.pathname + location.search.replace(/[\?&]del=[^&]+/, '').replace(/^&/, '?')
   );
 }
 </script>
 <?php
 
 function get_first_line_db($db, $sql) {
+
+	echo ("<script>console.log(`" . $sql . "`)</script>");
 	$a = $db->query($sql)->fetchAll();
 	if (empty($a)) {return array();}
 	$counter1 = 0;
@@ -51,4 +53,7 @@ function get_all_lines_db($db, $sql) {
 	return $a;
 }
 
+function generateRandomString($length = 10) {
+	return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
+}
 ?>
