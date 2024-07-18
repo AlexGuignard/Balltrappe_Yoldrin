@@ -20,7 +20,8 @@ if (isset($_GET["target"])) {
 		$_SESSION['target'] = $_GET["target"];
 	} elseif ($_GET['target'] == "disconnect") {
 		session_destroy();
-		unset($_POST);
+		unset($_GET);
+		echo ("<script>cleartarget()</script>");
 		echo ("<script>window.location.reload()</script>");
 	} else {
 		session_start();

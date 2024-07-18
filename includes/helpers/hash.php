@@ -23,8 +23,6 @@ function cleartarget(){
 <?php
 
 function get_first_line_db($db, $sql) {
-
-	echo ("<script>console.log(`" . $sql . "`)</script>");
 	$a = $db->query($sql)->fetchAll();
 	if (empty($a)) {return array();}
 	$counter1 = 0;
