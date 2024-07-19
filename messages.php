@@ -177,14 +177,14 @@ foreach ($result as $discution) {
 			}
 		}
 
-	let user_messages = [];
+		user_messages = [];
 		setTimeout(()=>{
 
 			user_messages = [];
 			for(e of chats){
 				getChats(e)
 			}
-			show_messages()
+			setTimeout(()=>{show_messages()},100)
 		},1000)
 
 
