@@ -184,8 +184,8 @@ foreach ($result as $discution) {
 			for(e of chats){
 				getChats(e)
 			}
-			setTimeout(()=>{show_messages()},100)
-		},1000)
+			setTimeout(()=>{show_messages()},50)
+		},50)
 
 
 	}
@@ -234,7 +234,6 @@ foreach ($result as $discution) {
     		message_bar = document.createElement("input")
     		message_bar.id = "bar_"+disc_counter
     		message_bar.type="text"
-
     		message_send_button = document.createElement("input")
     		message_send_button.id = disc_counter
     		message_send_button.data = disc_counter
@@ -251,6 +250,8 @@ foreach ($result as $discution) {
 			document.getElementById("discution_container").appendChild(b)
 			document.getElementById("button_container").appendChild(l)
 			disc_counter++
+    		let last_msg = document.getElementsByClassName("right_message message")[document.getElementsByClassName("right_message message").length-1]
+			last_msg.parentElement.scrollBy(0,last_msg.parentElement.clientHeight-400)
         })
         let c = 0
         for(e of document.getElementsByClassName("conversation")){
@@ -260,5 +261,5 @@ foreach ($result as $discution) {
         		}c++
         }
 	}
-	setTimeout	(()=>show_messages(),1000)
+	setTimeout	(()=>show_messages(),10)
 </script>
