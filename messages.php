@@ -88,7 +88,6 @@ foreach ($result as $frequest) {
 	            dataType: 'json',
 	            success: function(data) {
 	                data.forEach(e =>{
-	                	console.log(data)
 	                	if(user_messages.hasOwnProperty(e["friendship_id"]) == false){
 	                		user_messages[e["friendship_id"]] = []
 	                	}
@@ -97,7 +96,7 @@ foreach ($result as $frequest) {
 	            }
 	        });
 	    });
-		console.log(user_messages)
+
 	}
 </script>
 <?php
@@ -124,9 +123,7 @@ foreach ($result as $discution) {
 	}
 	let discution_id = 0;
 	function show_only_discution(e){
-		console.log(e.target.id);
 		for(c of document.getElementsByClassName("conversation")){
-			console.log(c,e.target.id);
         		if(c.id != e.target.id){
         				c.hidden = true;
         		}else{
@@ -134,6 +131,49 @@ foreach ($result as $discution) {
         		}
         }
 	}
+	async function send_message(e){
+		console.log(e.target)
+		e.preventDefault()
+		b = document.getElementsByClassName("conversation")
+		to = b[e.target.id].children[0].id
+		a = document.getElementById("bar_"+e.target.id).value
+		console.log(a)
+
+		d = null
+		for(c of b ){
+			if(!c.hidden){
+				d = c.id
+			}
+		}
+		a = encodeURI(a)
+		let url = ("send_message.php?from=<?=$_SESSION['user_id']?>&to="+to+"&message="+a)
+                	console.log(url)
+
+    	$.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                	console.log(data)
+            }
+        });
+        while(document.getElementById("button_container").children.length != 0){
+			k = document.getElementById("button_container").children
+			for(e of k){
+			    e.remove()
+			}
+        }
+
+        while(document.getElementsByClassName("conversation").length != 0){
+			for(e of document.getElementsByClassName("conversation")){
+				e.remove()
+			}
+		}
+		setTimeout(()=>show_messages(),1000)
+
+
+	}
+	let message_send_button;
 	async function show_messages(){
 		let disc_counter = 0
 		let last_other_person = ""
@@ -146,7 +186,6 @@ foreach ($result as $discution) {
 			b.appendChild(d)
         	d.classList.add("other_name")
     		k.forEach((x)=>{
-    			console.log(x)
     	  		let f = document.createElement("div");
                 if(current_user_name == x.sender_name ){
                     f.classList.add("right_message")
@@ -156,6 +195,7 @@ foreach ($result as $discution) {
                 }
                 f.classList.add("message")
                 d.innerHTML	= x.other_person_name
+                d.id = x.other_person_id
                 last_other_person = x.other_person_name
     	  		let g = document.createElement("a");
     	  		let h = document.createElement("a");
@@ -173,6 +213,22 @@ foreach ($result as $discution) {
     		l.value = last_other_person
     		l.innerHTML = last_other_person
     		b.id = disc_counter
+    		send_message_bar = document.createElement("form")
+    		send_message_bar.classList.add("send_messsage_form")
+    		message_bar = document.createElement("input")
+    		message_bar.id = "bar_"+disc_counter
+    		message_bar.type="text"
+
+    		message_send_button = document.createElement("input")
+    		message_send_button.id = disc_counter
+    		message_send_button.data = disc_counter
+    		message_send_button.type="submit"
+    		message_send_button.addEventListener("click",(e)=>{send_message(e)});
+
+    		send_message_bar.appendChild(message_bar)
+    		send_message_bar.appendChild(message_send_button)
+    		b.appendChild(send_message_bar)
+
     		l.id = disc_counter
     		l.classList.add("button_change_disc")
     		l.addEventListener("click",(e)=>{show_only_discution(e)});
@@ -188,5 +244,5 @@ foreach ($result as $discution) {
         		}c++
         }
 	}
-	setTimeout	(()=>show_messages(),100)
+	setTimeout	(()=>show_messages(),1000)
 </script>
