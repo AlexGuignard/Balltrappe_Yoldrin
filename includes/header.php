@@ -8,7 +8,7 @@
 		<div>
 			<div class="navbar">
 				<div class="left_items">
-					<div oncdivck="clickchild(this)"><a href="/?target=home">Home</a></div>
+					<div oncdivck="clickchild(this)"><a href="/?target=home">Accueil</a></div>
 					<div oncdivck="clickchild(this)"><a href="/?target=messages">Messages</a></div>
 					<div oncdivck="clickchild(this)"><a href="/?target=records">Records</a></div>
 					<div oncdivck="clickchild(this)"><a href="/?target=library">Librairie</a></div>

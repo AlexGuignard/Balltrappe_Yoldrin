@@ -63,7 +63,7 @@ if (!empty(get_first_line_db($db, "SELECT * FROM friend_requests where ( from_id
 
 		$te->other_person_id = $l;
 		array_push($e, $te);
-		get_first_line_db($db, "UPDATE messages set msg_read = 1 where id = " . $line["id"] . "");
+		//get_first_line_db($db, "UPDATE messages set msg_read = 1 where id = " . $line["id"] . "");
 	}
 	echo json_encode($e);
 } else {

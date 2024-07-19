@@ -95,27 +95,35 @@ if (isset($_SESSION['target'])) {
 	switch ($_SESSION['target']) {
 	case "home":
 		include "home.php";
+		echo ("<title>Accueil</title>");
 		break;
 	case "account":
 		include "account.php";
+		echo ("<title>Compte</title>");
 		break;
 	case "messages":
 		include "messages.php";
+		echo ("<title>Messages</title>");
 		break;
 	case "records":
 		include "records.php";
+		echo ("<title>Records</title>");
 		break;
 	case "upload":
 		include "upload.php";
+		echo ("<title>Upload</title>");
 		break;
 	case "library":
 		include "library.php";
+		echo ("<title>Librairie</title>");
 		break;
 	case "login":
 		include "login.php";
+		echo ("<title>Connexion</title>");
 		break;
 	default:
 		include "home.php";
+		echo ("<title>Accueil</title>");
 		break;
 	}
 } else {

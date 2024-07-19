@@ -28,6 +28,8 @@ $msg_id = get_first_line_db($db, "SELECT msg_id FROM users where id = '" . $_SES
 
 if (isset($_POST["accept_id"])) {
 	get_first_line_db($db, "UPDATE friend_requests SET accepted = 1 where id = '" . $_POST["accept_id"] . "'");
+	get_first_line_db($db, "INSERT INTO messages(friendship_id,content,sender_id) VALUES ('" . $_POST["accept_id"] . "','Bienvenue dans la discution','" . $_SESSION["user_id"] . "')");
+
 }
 
 if (isset($_POST["deny_id"])) {
@@ -78,6 +80,7 @@ foreach ($result as $frequest) {
 
 ?>
 <script>
+	let chats = []
 	let user_messages = [];
 	async function getChats(a){
 		console.log('single_messages.php?id='+a);
@@ -93,6 +96,9 @@ foreach ($result as $frequest) {
 	                	}
 	                	user_messages[e["friendship_id"]].push(e);
 	                });
+	                if(data == "[]"){
+	                	user_messages[a] = []
+	                }
 	            }
 	        });
 	    });
@@ -100,10 +106,12 @@ foreach ($result as $frequest) {
 	}
 </script>
 <?php
-$result = get_all_lines_db($db, "SELECT id FROM friend_requests AS f  WHERE ( f.to_id = '" . $msg_id . "' OR f.from_id = '" . $msg_id . "' ) AND accepted = 1");
+$result = get_all_lines_db($db, "SELECT id FROM friend_requests AS f  WHERE ( f.from_id = '" . $_SESSION["user_id"] . "' OR f.to_id = '" . $msg_id . "' ) AND accepted = 1");
 foreach ($result as $discution) {
 	echo ("\n");
-	echo "<script>getChats('" . $discution["id"] . "')</script>\n";
+
+	echo "<script>chats.push('" . $discution["id"] . "')</script>\n";
+	echo "<script>getChats(`" . $discution["id"] . "`)</script>\n";
 }
 
 ?>
@@ -132,7 +140,6 @@ foreach ($result as $discution) {
         }
 	}
 	async function send_message(e){
-		console.log(e.target)
 		e.preventDefault()
 		b = document.getElementsByClassName("conversation")
 		to = b[e.target.id].children[0].id
@@ -147,7 +154,7 @@ foreach ($result as $discution) {
 		}
 		a = encodeURI(a)
 		let url = ("send_message.php?from=<?=$_SESSION['user_id']?>&to="+to+"&message="+a)
-                	console.log(url)
+        console.log(url)
 
     	$.ajax({
             url: url,
@@ -169,7 +176,16 @@ foreach ($result as $discution) {
 				e.remove()
 			}
 		}
-		setTimeout(()=>show_messages(),1000)
+
+	let user_messages = [];
+		setTimeout(()=>{
+
+			user_messages = [];
+			for(e of chats){
+				getChats(e)
+			}
+			show_messages()
+		},1000)
 
 
 	}
@@ -201,8 +217,8 @@ foreach ($result as $discution) {
     	  		let h = document.createElement("a");
     	  		let i = document.createElement("a");
     	  		g.innerHTML = x.content
-    	  		h.innerHTML = x.attachements
-    	  		i.innerHTML = x.read
+    	  		if(x.attachements) h.innerHTML = "</br> PJ : " + x.attachements;
+    	  		i.innerHTML = "</br> Lu :" + (x.read ? "oui" : "non")
     	  		f.appendChild(g)
     	  		f.appendChild(h)
     	  		f.appendChild(i)
